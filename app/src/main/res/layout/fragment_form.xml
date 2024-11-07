@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".view.FormFragment">
+
+    <data>
+        <variable
+            name="product"
+            type="com.example.livedataviewmodel.model.Product" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <Button
+            android:id="@+id/btn_select_img"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Select Image" />
+
+        <ImageView
+            android:id="@+id/imv_product_img"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="8dp"
+            android:scaleType="centerCrop"
+            app:imageResource="@{product.imageResId}" />
+
+
+        <EditText
+            android:id="@+id/edt_product_code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Code"
+            android:inputType="number"
+            android:text="@={product.code}" />
+
+        <EditText
+            android:id="@+id/edt_product_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Name"
+            android:inputType="text"
+            android:text="@={product.name}" />
+
+        <EditText
+            android:id="@+id/edt_product_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Desc"
+            android:inputType="text"
+            android:text="@={product.description}" />
+
+        <EditText
+            android:id="@+id/edt_product_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Price"
+            android:inputType="numberDecimal"
+            android:text="@={product.price}" />
+
+        <Button
+            android:id="@+id/btn_confirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Confirm" />
+    </LinearLayout>
+
+
+</layout>
