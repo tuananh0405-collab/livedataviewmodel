@@ -4,12 +4,36 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import androidx.databinding.InverseBindingAdapter;
+import androidx.databinding.InverseBindingListener;
 
 public class BindingAdapter {
-    @androidx.databinding.BindingAdapter("app:imageResId")
+//    @androidx.databinding.BindingAdapter("app:imageResId")
+//    public static void setImageResource(ImageView imageView, int imageResId) {
+//        imageView.setImageResource(imageResId);
+//    }
+
+    @androidx.databinding.BindingAdapter("imageResId")
     public static void setImageResource(ImageView imageView, int imageResId) {
         imageView.setImageResource(imageResId);
     }
+
+    @InverseBindingAdapter(attribute = "imageResId", event = "imageResIdAttrChanged")
+    public static int getImageResource(ImageView imageView) {
+        return (int) imageView.getTag();
+    }
+
+    @androidx.databinding.BindingAdapter("imageResIdAttrChanged")
+    public static void setImageResIdListener(ImageView imageView, InverseBindingListener listener) {
+        imageView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onChange();
+            }
+        });
+    }
+
+
+
+
     @androidx.databinding.BindingAdapter("android:text")
     public static void setFloatInText(EditText view, float value) {
         if (value != 0.0f) {

@@ -8,6 +8,11 @@
         <variable
             name="product"
             type="com.example.livedataviewmodel.model.Product" />
+
+        <variable
+            name="viewModel"
+            type="com.example.livedataviewmodel.viewmodel.ProductViewModel" />
+
     </data>
 
     <LinearLayout
@@ -19,6 +24,7 @@
         <Button
             android:id="@+id/btn_select_img"
             android:layout_width="match_parent"
+            android:onClick="@{() -> viewModel.showImgDialog(btnSelectImg.getContext())}"
             android:layout_height="wrap_content"
             android:text="Select Image" />
 
@@ -28,7 +34,9 @@
             android:layout_height="200dp"
             android:layout_marginTop="8dp"
             android:scaleType="centerCrop"
-            app:imageResource="@{product.imageResId}" />
+            app:imageResId="@={product.imageResId}"
+
+           />
 
 
         <EditText

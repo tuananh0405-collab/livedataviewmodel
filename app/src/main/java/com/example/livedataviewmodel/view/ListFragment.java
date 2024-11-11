@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.example.livedataviewmodel.R;
 import com.example.livedataviewmodel.adapter.ProductAdapter;
+import com.example.livedataviewmodel.databinding.ActivityMainBinding;
 import com.example.livedataviewmodel.databinding.FragmentListBinding;
 import com.example.livedataviewmodel.model.Product;
 import com.example.livedataviewmodel.viewmodel.ProductViewModel;
@@ -43,6 +44,8 @@ public class ListFragment extends Fragment {
 
     private void onProductClick(Product product) {
         viewModel.setSelectedProduct(product);
+//        ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
+//        binding.viewPager2.setCurrentItem(1, true);
         ViewPager2 viewPager2 = getActivity().findViewById(R.id.view_pager_2);
         viewPager2.setCurrentItem(1,true);
     }

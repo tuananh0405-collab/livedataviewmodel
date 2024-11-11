@@ -22,7 +22,7 @@ public class FormFragment extends Fragment {
     private FragmentFormBinding binding;
     private ProductViewModel viewModel;
     private int selectedImg = R.drawable.ic_default_image;
-    Product product;
+//    Product product;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -30,61 +30,62 @@ public class FormFragment extends Fragment {
         binding = FragmentFormBinding.inflate(inflater, container, false);
 
         viewModel = new ViewModelProvider(requireActivity()).get(ProductViewModel.class);
+        binding.setViewModel(viewModel);
+        binding.setLifecycleOwner(getViewLifecycleOwner());
         viewModel.getSelectedProduct().observe(getViewLifecycleOwner(), this::populateForm);
+        if (binding.getProduct() == null) {
+            binding.setProduct(new Product());
+        }
+        viewModel.getImageResId().observe(getViewLifecycleOwner(), resId -> {
+            if (resId != null) {
+                binding.imvProductImg.setImageResource(resId);
+//                product.setImageResId(resId);
+                selectedImg = resId;
+            }
+        });
 
-        product = new Product();
-        binding.setProduct(product);
+//        product = new Product();
 
-        binding.btnSelectImg.setOnClickListener(view -> showImagePicker());
+//        binding.setProduct(product);
+
 
         binding.btnConfirm.setOnClickListener(view -> {
             if (isValidInput()) {
+                Product newProduct = binding.getProduct();
+//                newProduct.setCode(Integer.parseInt(binding.edtProductCode.getText().toString()));
+//                newProduct.setName(binding.edtProductName.getText().toString());
+//                newProduct.setDescription(binding.edtProductDesc.getText().toString());
+//                newProduct.setPrice(Float.parseFloat(binding.edtProductPrice.getText().toString()));
+                newProduct.setImageResId(selectedImg);
+
                 if (viewModel.getSelectedProduct().getValue() != null) {
-                    viewModel.updateProduct(product);
+                    viewModel.updateProduct(newProduct);
                     viewModel.clearSelectedProduct();
-                    binding.setProduct(null);
-                    selectedImg = R.drawable.ic_default_image;
-                    binding.imvProductImg.setImageResource(selectedImg);
                 } else {
-                    viewModel.addProduct(product);
-                    binding.setProduct(null);
-                    selectedImg = R.drawable.ic_default_image;
-                    binding.imvProductImg.setImageResource(selectedImg);
+                    viewModel.addProduct(newProduct);
                 }
+
+                binding.setProduct(new Product());
+                selectedImg = R.drawable.ic_default_image;
+                binding.imvProductImg.setImageResource(selectedImg);
             }
+            binding.edtProductCode.setEnabled(true);
+
             ViewPager2 viewPager2 = getActivity().findViewById(R.id.view_pager_2);
             viewPager2.setCurrentItem(0, true);
         });
 
+
         return binding.getRoot();
-    }
-
-    private void showImagePicker() {
-        final String[] imageOptions = {"Bacon", "Chicken", "Ranch", "Beef", "Berry"};
-        final int[] imageResources = {
-                R.drawable.bacon_wrapped,
-                R.drawable.bbq_chicken,
-                R.drawable.bbq_ranch,
-                R.drawable.beef_stir_fry,
-                R.drawable.berry_blast
-        };
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle("Select Product Image")
-                .setItems(imageOptions, (dialog, which) -> {
-                    selectedImg = imageResources[which];
-                    binding.imvProductImg.setImageResource(selectedImg);
-                    product.setImageResId(selectedImg);
-                });
-        builder.show();
     }
 
     private void populateForm(Product product) {
         if (product != null) {
             binding.setProduct(product);
             selectedImg = product.getImageResId();
+            binding.edtProductCode.setEnabled(false);
         } else {
-            binding.setProduct(null);
+            binding.setProduct(new Product());
             selectedImg = R.drawable.ic_default_image;
             binding.imvProductImg.setImageResource(selectedImg);
         }
